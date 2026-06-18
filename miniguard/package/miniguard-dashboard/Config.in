@@ -1,0 +1,7 @@
+config BR2_PACKAGE_MINIGUARD_DASHBOARD
+    bool "miniguard-dashboard"
+    depends on BR2_PACKAGE_LIGHTTPD
+    help
+      MiniGuard web dashboard: real-time system monitor
+      with shell CGI scripts for embedded Linux systems.
+      Includes system, network and security monitoring panels.

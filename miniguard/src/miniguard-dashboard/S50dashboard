@@ -1,0 +1,32 @@
+#!/bin/sh
+
+LIGHTTPD_CONF="/etc/lighttpd/lighttpd.conf"
+
+start() {
+    echo "Starting MiniGuard dashboard..."
+    # Ensure log dir exists
+    mkdir -p /var/log
+    touch /var/log/fw.log
+
+    # Link CGI scripts into document root (lighttpd needs them in document root cgi-bin)
+    mkdir -p /usr/share/miniguard/html/cgi-bin
+    ln -sf /usr/share/miniguard/cgi-bin/system.sh   /usr/share/miniguard/html/cgi-bin/
+    ln -sf /usr/share/miniguard/cgi-bin/network.sh  /usr/share/miniguard/html/cgi-bin/
+    ln -sf /usr/share/miniguard/cgi-bin/security.sh /usr/share/miniguard/html/cgi-bin/
+
+    # Start lighttpd daemon
+    lighttpd -f $LIGHTTPD_CONF
+    echo "Dashboard running."
+}
+
+stop() {
+    echo "Stopping dashboard..."
+    killall lighttpd 2>/dev/null
+}
+
+case "$1" in
+    start)   start ;;
+    stop)    stop  ;;
+    restart) stop; sleep 1; start ;;
+    *)       echo "Usage: $0 {start|stop|restart}"; exit 1 ;;
+esac

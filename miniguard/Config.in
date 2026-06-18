@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_MINIGUARD_PATH/package/miniguard-dashboard/Config.in"
